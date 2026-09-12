@@ -87,6 +87,24 @@ identifier linkage, source-specific quality-control rules, and downstream export
 to third-party analysis services are deliberately excluded because those steps
 depend on restricted metadata.
 
+## Analysis scripts
+
+The sanitized script suite retains the reusable workflow categories without
+embedding source-specific paths or column mappings:
+
+- `scripts/preprocessing/`: numeric validation, outlier masking, transformation,
+  and covariate residualization;
+- `scripts/associations/`: linear and binary outcome association models;
+- `scripts/decomposition/`: principal-component scores and loadings;
+- `scripts/networks/`: pairwise association-network construction;
+- `scripts/genetics/`: source-neutral summary-statistics formatting;
+- `scripts/visualization/` and `scripts/reports/`: generated-output presentation;
+- `scripts/examples/`, `scripts/quality/`, and `scripts/release/`: safe examples
+  and repository maintenance.
+
+Run any script with `--help` for its input contract. Actual source adapters and
+column-name mappings remain intentionally outside the public repository.
+
 ## License
 
 No reuse license is granted yet. Add the license approved by the project owners
