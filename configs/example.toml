@@ -1,0 +1,17 @@
+[data]
+input = "../local-data/synthetic_traits.csv"
+sample_id = "sample_id"
+traits = ["trait_a", "trait_b", "trait_c", "trait_d"]
+covariates = ["covariate_a", "covariate_b"]
+
+[preprocessing]
+rank_inverse_normal = true
+residualize = true
+
+[network]
+minimum_pair_size = 25
+fdr_level = 0.05
+
+[output]
+directory = "../local-results"
+edge_file = "association_edges.csv"
