@@ -20,7 +20,7 @@ source-specific metadata belong in controlled storage, not in Git.
 2. Put private configuration in `configs/local.toml`.
 3. Write generated files under `local-results/`.
 4. Use artificial data for tests and examples.
-5. Run `python tools/audit_release.py` before staging changes.
+5. Run `python scripts/quality/audit_release.py` before staging changes.
 6. Inspect the exact staged set with `git diff --cached --name-only`.
 
 `.gitignore` reduces accidental additions but is not a security boundary. A file

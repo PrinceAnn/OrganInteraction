@@ -39,7 +39,7 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path(__file__).resolve().parents[1] / "local-data" / "synthetic_traits.csv",
+        default=Path(__file__).resolve().parents[2] / "local-data" / "synthetic_traits.csv",
     )
     args = parser.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)

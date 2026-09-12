@@ -23,6 +23,7 @@ SKIP_DIRECTORIES = {
     "outputs", "results", "venv",
 }
 MAX_FILE_BYTES = 1_000_000
+SOURCE_FIELD_CODE = re.compile(r"(?<!\d)\d{2,7}-\d+\.\d+(?!\d)")
 
 
 def candidate_files(root: Path) -> list[Path]:
@@ -34,7 +35,11 @@ def candidate_files(root: Path) -> list[Path]:
         text=True,
     )
     if completed.returncode == 0 and completed.stdout.strip():
-        return sorted(root / line for line in completed.stdout.splitlines())
+        return sorted(
+            path
+            for line in completed.stdout.splitlines()
+            if (path := root / line).is_file()
+        )
     return sorted(
         path
         for path in root.rglob("*")
@@ -70,6 +75,8 @@ def text_hazards(text: str, deny_tokens: list[str]) -> list[str]:
     assignment = re.compile(r"(?i)(password|api[_-]?key|access[_-]?token)\s*[:=]\s*['\"][^'\"]+['\"]")
     if assignment.search(text):
         hazards.append("hard-coded credential")
+    if SOURCE_FIELD_CODE.search(text):
+        hazards.append("source-specific field identifier")
     return hazards
 
 
@@ -104,7 +111,7 @@ def audit(root: Path, deny_tokens: list[str]) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument("--deny-token", action="append", default=[])
     args = parser.parse_args()
     environment_tokens = [

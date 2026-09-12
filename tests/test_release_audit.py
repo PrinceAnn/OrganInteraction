@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.audit_release import audit
+from scripts.quality.audit_release import audit
 
 
 class ReleaseAuditTests(unittest.TestCase):
@@ -22,6 +22,14 @@ class ReleaseAuditTests(unittest.TestCase):
             (root / "notes.md").unlink()
             (root / f"{token}_adapter.py").write_text("pass\n", encoding="utf-8")
             self.assertTrue(audit(root, [token]))
+
+    def test_blocks_source_field_code(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            encoded = "12345" + "-" + "0" + "." + "0"
+            (root / "adapter.py").write_text(f'value = "{encoded}"\n', encoding="utf-8")
+            failures = audit(root, [])
+            self.assertTrue(any("source-specific field identifier" in item for item in failures))
 
 
 if __name__ == "__main__":

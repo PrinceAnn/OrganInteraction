@@ -17,7 +17,10 @@ configs/              Safe example configuration using artificial column names
 docs/                 Data-governance and release guidance
 src/indnet/           Installable Python package
 tests/                Unit and end-to-end tests
-tools/                Synthetic-data generator and release auditor
+scripts/examples/     Artificial-data examples
+scripts/quality/      Publication and disclosure checks
+scripts/workflows/    Reproducible analysis entry points
+scripts/release/      Packaging and release verification
 .github/workflows/    Continuous integration checks
 ```
 
@@ -29,7 +32,7 @@ Python 3.11 or newer is required.
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e .
-python tools/generate_synthetic_data.py
+python scripts/examples/generate_synthetic_data.py
 python -m indnet run --config configs/example.toml
 ```
 
@@ -40,7 +43,7 @@ Run the test and publication checks before every release:
 
 ```bash
 python -m unittest discover -s tests -v
-python tools/audit_release.py
+python scripts/quality/audit_release.py
 ```
 
 The repository includes version-controlled Git hooks. Enable them once per local
@@ -54,7 +57,7 @@ For an additional project-specific content check, provide one or more restricted
 source identifiers without storing them in the repository:
 
 ```bash
-python tools/audit_release.py --deny-token "$RESTRICTED_SOURCE_TOKEN"
+python scripts/quality/audit_release.py --deny-token "$RESTRICTED_SOURCE_TOKEN"
 ```
 
 Maintainers can persist the same token only in local Git metadata. It will not be

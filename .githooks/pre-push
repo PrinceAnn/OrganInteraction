@@ -3,5 +3,5 @@ set -eu
 
 repository_root=$(git rev-parse --show-toplevel)
 cd "$repository_root"
-python tools/audit_release.py
+python scripts/quality/audit_release.py
 PYTHONPATH=src python -m unittest discover -s tests -v

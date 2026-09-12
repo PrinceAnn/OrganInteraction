@@ -20,7 +20,7 @@ Suggested initialization:
 ```bash
 git init
 git add .
-python tools/audit_release.py
+python scripts/quality/audit_release.py
 git diff --cached --stat
 ```
 
